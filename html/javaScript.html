@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fundamentos de JavaScript</title>
+    <link rel="stylesheet" href="../css/javaScript.css">
+</head>
+<body>
+    <div class="progress-bar">
+        <div class="progress-fill" id="progress"></div>
+    </div>
+
+    <div class="container">
+        <div class="sidebar">
+            <div class="logo" onclick="window.location.href='../index.html'">
+                <h1><span class="logo-js">JS</span> JavaScript</h1>
+                <p>Fundamentos Esenciales</p>
+            </div>
+            
+            <div class="menu-item active" onclick="showSection(0, this)">
+                <div class="menu-number">1</div>
+                <div class="menu-title">Variables y Tipos</div>
+            </div>
+            
+            <div class="menu-item" onclick="showSection(1, this)">
+                <div class="menu-number">2</div>
+                <div class="menu-title">Funciones</div>
+            </div>
+            
+            <div class="menu-item" onclick="showSection(2, this)">
+                <div class="menu-number">3</div>
+                <div class="menu-title">Arrays y Objetos</div>
+            </div>
+            
+            <div class="menu-item" onclick="showSection(3, this)">
+                <div class="menu-number">4</div>
+                <div class="menu-title">DOM y Eventos</div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <!-- Sección 1: Variables y Tipos -->
+            <div class="content-section active">
+                <div class="content-header">
+                    <h2>Variables y Tipos de Datos</h2>
+                    <p>JavaScript es dinámicamente tipado - las variables pueden cambiar de tipo</p>
+                </div>
+                
+                <div class="concept-box">
+                    <h3>Declaración de Variables</h3>
+                    <p>En JavaScript moderno usamos <code>let</code> y <code>const</code>. Evita usar <code>var</code>.</p>
+                    
+                    <div class="code-block">
+                        <pre>// const - para valores que no cambian
+const PI = 3.14159;
+const nombre = "María";
+// PI = 3.14; // ❌ Error! No se puede reasignar
+
+// let - para valores que pueden cambiar
+let edad = 25;
+let contador = 0;
+edad = 26; // ✅ Esto está bien
+
+// var - evítalo (antiguo, tiene problemas)
+var viejo = "No me uses"; // ⚠️ Mejor usa let o const
+
+// Sin declarar - NUNCA hagas esto
+sinDeclarar = "Malo"; // ❌ Crea variable global</pre>
+                    </div>
+                </div>
+                
+                <div class="concept-box">
+                    <h3>Tipos de Datos</h3>
+                    <p>JavaScript tiene tipos primitivos y objetos. El tipo se determina automáticamente.</p>
+                    
+                    <div class="code-block">
+                        <pre>// Números (number) - enteros y decimales son lo mismo
+let entero = 42;
+let decimal = 3.14;
+let negativo = -10;
+
+// Strings - texto (comillas simples, dobles o backticks)
+let simple = 'Hola';
+let doble = "Mundo";
+let plantilla = `Hola ${nombre}, tienes ${edad} años`;
+
+// Booleanos
+let verdadero = true;
+let falso = false;
+
+// Undefined y null
+let sinDefinir; // undefined - no tiene valor asignado
+let vacio = null; // null - vacío intencional
+
+// Verificar tipos
+console.log(typeof entero);     // "number"
+console.log(typeof nombre);     // "string"
+console.log(typeof verdadero);  // "boolean"</pre>
+                    </div>
+                    <div class="console-output">
+                        number<br>
+                        string<br>
+                        boolean
+                    </div>
+                </div>
+
+                <div class="concept-box">
+                    <h3>Template Literals (Plantillas)</h3>
+                    <div class="code-block">
+                        <pre>// Usa backticks `` para strings dinámicos
+const nombre = "Ana";
+const edad = 28;
+
+// Concatenación antigua (evitar)
+const mensaje1 = "Hola, " + nombre + ". Tienes " + edad + " años.";
+
+// Template literals (moderno y mejor) ✅
+const mensaje2 = `Hola, ${nombre}. Tienes ${edad} años.`;
+
+// Múltiples líneas
+const poema = `
+    Roses are red,
+    Violets are blue,
+    JavaScript is awesome,
+    And so are you!
+`;
+
+// Expresiones dentro de templates
+const precio = 100;
+const iva = 0.21;
+console.log(`Total con IVA: $${precio * (1 + iva)}`);</pre>
+                    </div>
+                </div>
+                
+                <div class="tip-box">
+                    <strong>💡 Consejo:</strong> Usa <code>const</code> por defecto. Solo usa <code>let</code> cuando necesites reasignar la variable. Esto hace tu código más predecible y seguro.
+                </div>
+                
+                <div class="warning-box">
+                    <strong>⚠️ Importante:</strong> JavaScript tiene "type coercion" - convierte tipos automáticamente. Por ejemplo: <code>"5" + 5 = "55"</code> pero <code>"5" - 5 = 0</code>. ¡Ten cuidado!
+                </div>
+            </div>
+            
+            <!-- Sección 2: Funciones -->
+            <div class="content-section">
+                <div class="content-header">
+                    <h2>Funciones</h2>
+                    <p>Las funciones son bloques de código reutilizables - fundamentales en JavaScript</p>
+                </div>
+                
+                <div class="concept-box">
+                    <h3>Declaración de Funciones</h3>
+                    <p>Hay varias formas de crear funciones en JavaScript:</p>
+                    
+                    <div class="code-block">
+                        <pre>// Función tradicional
+function saludar(nombre) {
+    return `Hola, ${nombre}!`;
+}
+
+// Función expresión
+const despedir = function(nombre) {
+    return `Adiós, ${nombre}!`;
+};
+
+// Arrow function (flecha) - moderna y concisa ✅
+const sumar = (a, b) => {
+    return a + b;
+};
+
+// Arrow function corta (return implícito)
+const multiplicar = (a, b) => a * b;
+
+// Un solo parámetro no necesita paréntesis
+const duplicar = n => n * 2;
+
+// Sin parámetros
+const obtenerHora = () => new Date().getHours();
+
+// Llamando funciones
+console.log(saludar("Carlos"));        // "Hola, Carlos!"
+console.log(sumar(5, 3));              // 8
+console.log(duplicar(10));             // 20</pre>
+                    </div>
+                </div>
+                
+                <div class="concept-box">
+                    <h3>Parámetros y Valores por Defecto</h3>
+                    <div class="code-block">
+                        <pre>// Parámetros por defecto
+function crearUsuario(nombre = "Anónimo", edad = 0) {
+    return {
+        nombre: nombre,
+        edad: edad
+    };
+}
+
+// Desestructuración en parámetros
+const presentar = ({ nombre, edad }) => {
+    console.log(`Soy ${nombre} y tengo ${edad} años`);
+};
+
+// Rest parameters (...resto)
+const sumarTodos = (...numeros) => {
+    return numeros.reduce((total, num) => total + num, 0);
+};
+
+// Uso
+console.log(crearUsuario());            // { nombre: "Anónimo", edad: 0 }
+console.log(crearUsuario("Ana", 25));   // { nombre: "Ana", edad: 25 }
+
+presentar({ nombre: "Luis", edad: 30 });
+
+console.log(sumarTodos(1, 2, 3, 4, 5)); // 15</pre>
+                    </div>
+                </div>
+
+                <div class="concept-box">
+                    <h3>Funciones de Orden Superior</h3>
+                    <p>Funciones que reciben o retornan otras funciones:</p>
+                    <div class="code-block">
+                        <pre>// Función que retorna otra función
+const crearMultiplicador = (factor) => {
+    return (numero) => numero * factor;
+};
+
+const duplicar = crearMultiplicador(2);
+const triplicar = crearMultiplicador(3);
+
+console.log(duplicar(5));   // 10
+console.log(triplicar(5));  // 15
+
+// Función que recibe otra función (callback)
+const procesarArray = (array, operacion) => {
+    const resultado = [];
+    for (let elemento of array) {
+        resultado.push(operacion(elemento));
+    }
+    return resultado;
+};
+
+const numeros = [1, 2, 3, 4, 5];
+const cuadrados = procesarArray(numeros, x => x * x);
+console.log(cuadrados); // [1, 4, 9, 16, 25]</pre>
+                    </div>
+                </div>
+                
+                <div class="tip-box">
+                    <strong>💡 Consejo:</strong> Usa arrow functions para funciones cortas y callbacks. Usa funciones tradicionales cuando necesites <code>this</code> o <code>arguments</code>.
+                </div>
+            </div>
+            
+            <!-- Sección 3: Arrays y Objetos -->
+            <div class="content-section">
+                <div class="content-header">
+                    <h2>Arrays y Objetos</h2>
+                    <p>Las estructuras de datos fundamentales para organizar información</p>
+                </div>
+                
+                <div class="concept-box">
+                    <h3>Arrays (Arreglos)</h3>
+                    <p>Listas ordenadas de elementos, pueden contener cualquier tipo de dato:</p>
+                    
+                    <div class="code-block">
+                        <pre>// Crear arrays
+const frutas = ["manzana", "pera", "uva"];
+const numeros = [1, 2, 3, 4, 5];
+const mixto = [1, "hola", true, null, { id: 1 }];
+
+// Acceder a elementos (índice empieza en 0)
+console.log(frutas[0]);    // "manzana"
+console.log(frutas[2]);    // "uva"
+
+// Modificar elementos
+frutas[1] = "naranja";
+
+// Propiedades y métodos útiles
+console.log(frutas.length);        // 3
+
+// Agregar elementos
+frutas.push("sandía");             // Al final
+frutas.unshift("fresa");           // Al inicio
+
+// Eliminar elementos
+frutas.pop();                      // Último elemento
+frutas.shift();                    // Primer elemento
+
+// Métodos importantes
+const numeros2 = [1, 2, 3, 4, 5];
+
+// map - transforma cada elemento
+const dobles = numeros2.map(n => n * 2);
+console.log(dobles);               // [2, 4, 6, 8, 10]
+
+// filter - filtra elementos
+const pares = numeros2.filter(n => n % 2 === 0);
+console.log(pares);                // [2, 4]
+
+// reduce - reduce a un solo valor
+const suma = numeros2.reduce((total, n) => total + n, 0);
+console.log(suma);                 // 15</pre>
+                    </div>
+                </div>
+                
+                <div class="concept-box">
+                    <h3>Objetos</h3>
+                    <p>Colecciones de pares clave-valor, perfectos para representar entidades:</p>
+                    
+                    <div class="code-block">
+                        <pre>// Crear objetos
+const persona = {
+    nombre: "Carlos",
+    edad: 30,
+    ciudad: "Madrid",
+    activo: true,
+    saludar: function() {
+        console.log(`Hola, soy ${this.nombre}`);
+    }
+};
+
+// Acceder a propiedades
+console.log(persona.nombre);       // "Carlos"
+console.log(persona["edad"]);      // 30
+
+// Modificar propiedades
+persona.edad = 31;
+persona.email = "carlos@email.com"; // Agregar nueva propiedad
+
+// Métodos abreviados (ES6+)
+const producto = {
+    nombre: "Laptop",
+    precio: 999,
+    // Método abreviado
+    aplicarDescuento(porcentaje) {
+        this.precio *= (1 - porcentaje / 100);
+    }
+};
+
+// Desestructuración
+const { nombre, edad } = persona;
+console.log(nombre, edad);         // "Carlos" 31
+
+// Spread operator (...)
+const datosExtra = {
+    telefono: "123456789",
+    pais: "España"
+};
+
+const personaCompleta = { ...persona, ...datosExtra };
+
+// Object methods
+const claves = Object.keys(persona);      // ["nombre", "edad", ...]
+const valores = Object.values(persona);   // ["Carlos", 31, ...]</pre>
+                    </div>
+                </div>
+
+                <div class="concept-box">
+                    <h3>Trabajando con Arrays de Objetos</h3>
+                    <div class="code-block">
+                        <pre>const usuarios = [
+    { id: 1, nombre: "Ana", edad: 25, activo: true },
+    { id: 2, nombre: "Luis", edad: 30, activo: false },
+    { id: 3, nombre: "María", edad: 28, activo: true }
+];
+
+// Encontrar un usuario
+const usuario = usuarios.find(u => u.id === 2);
+console.log(usuario); // { id: 2, nombre: "Luis", ... }
+
+// Filtrar usuarios activos
+const activos = usuarios.filter(u => u.activo);
+
+// Obtener solo nombres
+const nombres = usuarios.map(u => u.nombre);
+console.log(nombres); // ["Ana", "Luis", "María"]
+
+// Calcular edad promedio
+const edadPromedio = usuarios.reduce((sum, u) => sum + u.edad, 0) / usuarios.length;
+
+// Ordenar por edad
+usuarios.sort((a, b) => a.edad - b.edad);</pre>
+                    </div>
+                </div>
+                
+                <div class="tip-box">
+                    <strong>💡 Consejo:</strong> Los métodos <code>map</code>, <code>filter</code> y <code>reduce</code> son esenciales en JavaScript moderno. ¡Practícalos mucho!
+                </div>
+            </div>
+            
+            <!-- Sección 4: DOM y Eventos -->
+            <div class="content-section">
+                <div class="content-header">
+                    <h2>DOM y Eventos</h2>
+                    <p>Interactúa con la página web y responde a las acciones del usuario</p>
+                </div>
+                
+                <div class="concept-box">
+                    <h3>Seleccionar Elementos del DOM</h3>
+                    <p>El DOM (Document Object Model) representa la estructura HTML como objetos JavaScript:</p>
+                    
+                    <div class="code-block">
+                        <pre>// Seleccionar por ID
+const titulo = document.getElementById('titulo');
+
+// Seleccionar por clase (retorna el primero)
+const boton = document.querySelector('.boton-principal');
+
+// Seleccionar todos los que coincidan
+const parrafos = document.querySelectorAll('p');
+const botones = document.querySelectorAll('.boton');
+
+// Métodos antiguos (aún útiles)
+const divs = document.getElementsByTagName('div');
+const items = document.getElementsByClassName('item');
+
+// Navegación del DOM
+const elemento = document.querySelector('.caja');
+const padre = elemento.parentElement;
+const hijos = elemento.children;
+const siguiente = elemento.nextElementSibling;
+
+// Verificar si existe antes de usar
+const menu = document.querySelector('#menu');
+if (menu) {
+    // Hacer algo con menu
+}</pre>
+                    </div>
+                </div>
+                
+                <div class="concept-box">
+                    <h3>Modificar el DOM</h3>
+                    <div class="code-block">
+                        <pre>// Cambiar contenido
+const titulo = document.querySelector('h1');
+titulo.textContent = 'Nuevo Título';              // Solo texto
+titulo.innerHTML = 'Título con <em>énfasis</em>'; // HTML
+
+// Cambiar estilos
+titulo.style.color = 'blue';
+titulo.style.fontSize = '2em';
+titulo.style.backgroundColor = '#f0f0f0';
+
+// Mejor práctica: usar clases CSS
+titulo.classList.add('destacado');
+titulo.classList.remove('normal');
+titulo.classList.toggle('visible');
+titulo.classList.contains('activo'); // true/false
+
+// Cambiar atributos
+const imagen = document.querySelector('img');
+imagen.src = 'nueva-imagen.jpg';
+imagen.alt = 'Descripción de la imagen';
+imagen.setAttribute('data-id', '123');
+
+// Crear elementos
+const nuevoParrafo = document.createElement('p');
+nuevoParrafo.textContent = 'Este es un nuevo párrafo';
+nuevoParrafo.classList.add('texto-importante');
+
+// Agregar al DOM
+document.body.appendChild(nuevoParrafo);
+
+// Insertar en posición específica
+const contenedor = document.querySelector('.contenedor');
+contenedor.insertBefore(nuevoParrafo, contenedor.firstChild);</pre>
+                    </div>
+                </div>
+
+                <div class="concept-box">
+                    <h3>Eventos</h3>
+                    <p>Responde a las interacciones del usuario:</p>
+                    <div class="code-block">
+                        <pre>// Agregar event listener
+const boton = document.querySelector('#mi-boton');
+
+boton.addEventListener('click', function() {
+    console.log('¡Botón clickeado!');
+});
+
+// Con arrow function
+boton.addEventListener('click', () => {
+    alert('¡Hola!');
+});
+
+// Evento con parámetro event
+boton.addEventListener('click', (event) => {
+    console.log('Clickeado en:', event.target);
+    console.log('Posición:', event.clientX, event.clientY);
+});
+
+// Eventos comunes
+const input = document.querySelector('#mi-input');
+
+input.addEventListener('input', (e) => {
+    console.log('Valor actual:', e.target.value);
+});
+
+input.addEventListener('focus', () => {
+    console.log('Input enfocado');
+});
+
+input.addEventListener('blur', () => {
+    console.log('Input perdió el foco');
+});
+
+// Event delegation (para elementos dinámicos)
+document.querySelector('.lista').addEventListener('click', (e) => {
+    if (e.target.classList.contains('item')) {
+        console.log('Item clickeado:', e.target.textContent);
+    }
+});
+
+// Prevenir comportamiento por defecto
+const enlace = document.querySelector('a');
+enlace.addEventListener('click', (e) => {
+    e.preventDefault(); // No navegar
+    console.log('Enlace clickeado pero no navega');
+});
+
+// Remover event listener
+const handler = () => console.log('Evento!');
+boton.addEventListener('click', handler);
+boton.removeEventListener('click', handler);</pre>
+                    </div>
+                </div>
+                
+                <div class="tip-box">
+                    <strong>💡 Consejo:</strong> Siempre verifica que un elemento existe antes de agregar eventos. Usa <code>addEventListener</code> en lugar de <code>onclick</code> para mayor flexibilidad.
+                </div>
+                
+                <div class="warning-box">
+                    <strong>⚠️ Importante:</strong> Manipular el DOM es costoso en rendimiento. Agrupa los cambios y evita modificaciones excesivas en bucles.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/java.js"></script>
+</body>
+</html>
