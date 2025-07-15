@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fundamentos de Java</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0f0f1e;
+            min-height: 100vh;
+            color: #e0e0e0;
+            overflow-x: hidden;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 300px;
+            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+            padding: 30px 20px;
+            overflow-y: auto;
+            border-right: 1px solid #2a2a4a;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo h1 {
+            font-size: 2em;
+            color: #f89820;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .logo p {
+            color: #8892b0;
+            font-size: 0.9em;
+        }
+
+        .menu-item {
+            background: rgba(255, 255, 255, 0.05);
+            margin-bottom: 15px;
+            padding: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(248, 152, 32, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .menu-item:hover::before {
+            left: 100%;
+        }
+
+        .menu-item:hover {
+            background: rgba(248, 152, 32, 0.1);
+            transform: translateX(5px);
+        }
+
+        .menu-item.active {
+            background: linear-gradient(135deg, #007396 0%, #f89820 100%);
+            border-color: #f89820;
+            box-shadow: 0 5px 20px rgba(248, 152, 32, 0.3);
+        }
+
+        .menu-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #f89820;
+            opacity: 0.3;
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .menu-item.active .menu-number {
+            opacity: 0.5;
+            color: white;
+        }
+
+        .menu-title {
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 5px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .menu-description {
+            font-size: 0.85em;
+            color: #8892b0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .menu-item.active .menu-description {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Content Area */
+        .content {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+            background: #0a0a1a;
+            position: relative;
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .content-header {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #2a2a4a;
+        }
+
+        .content-header h2 {
+            font-size: 2.5em;
+            background: linear-gradient(135deg, #007396 0%, #f89820 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .content-header p {
+            font-size: 1.1em;
+            color: #8892b0;
+        }
+
+        .concept-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid #2a2a4a;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .concept-box h3 {
+            color: #f89820;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .code-block {
+            background: #1a1a2e;
+            border-left: 4px solid #f89820;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-block pre {
+            color: #e0e0e0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .code-block::before {
+            content: 'CÓDIGO JAVA';
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            font-size: 0.75em;
+            color: #f89820;
+            opacity: 0.5;
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, rgba(248, 152, 32, 0.1) 0%, rgba(0, 115, 150, 0.1) 100%);
+            border-left: 4px solid #f89820;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .tip-box strong {
+            color: #f89820;
+        }
+
+        .warning-box {
+            background: rgba(255, 193, 7, 0.1);
+            border-left: 4px solid #ffc107;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .warning-box strong {
+            color: #ffc107;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #2a2a4a;
+            z-index: 1000;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #007396 0%, #f89820 100%);
+            width: 25%;
+            transition: width 0.5s ease;
+        }
+
+        /* Lists styling */
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        ul li {
+            padding: 5px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        ul li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #f89820;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid #2a2a4a;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar">
+        <div class="progress-fill" id="progress"></div>
+    </div>
+
+    <div class="container">
+        <div class="sidebar">
+            <div class="logo">
+                <h1>☕ Java</h1>
+                <p>Fundamentos Esenciales</p>
+            </div>
+            
+            <div class="menu-item active" onclick="showSection(0, this)">
+                <div class="menu-number">1</div>
+                <div class="menu-title">Variables y Tipos</div>
+                <div class="menu-description">Declaración y tipos de datos en Java</div>
+            </div>
+            
+            <div class="menu-item" onclick="showSection(1, this)">
+                <div class="menu-number">2</div>
+                <div class="menu-title">Clases y Objetos</div>
+                <div class="menu-description">Programación orientada a objetos</div>
+            </div>
+            
+            <div class="menu-item" onclick="showSection(2, this)">
+                <div class="menu-number">3</div>
+                <div class="menu-title">Métodos</div>
+                <div class="menu-description">Funciones y procedimientos en Java</div>
+            </div>
+            
+            <div class="menu-item" onclick="showSection(3, this)">
+                <div class="menu-number">4</div>
+                <div class="menu-title">Control de Flujo</div>
+                <div class="menu-description">Condicionales y bucles</div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <!-- Sección 1: Variables y Tipos -->
+            <div class="content-section active">
+                <div class="content-header">
+                    <h2>Variables y Tipos de Datos</h2>
+                    <p>Java es un lenguaje fuertemente tipado - cada variable debe declarar su tipo</p>
+                </div>
+                
+                <div class="concept-box">
+                    <h3>Declaración de Variables</h3>
+                    <p>En Java, debes especificar el tipo de dato antes del nombre de la variable. Esto ayuda a prevenir errores y hace el código más seguro.</p>
+                    
+                    <div class="code-block">
+                        <pre>// Declaración básica: tipo nombreVariable = valor;
+int edad = 25;
+String nombre = "Carlos";
+double salario = 3500.50;
+boolean esEstudiante = true;
+
+// Puedes declarar sin inicializar
+int numeroArticulos;
+numeroArticulos = 10;  // Asignar valor después
+
+// Constantes (no pueden cambiar)
+final double PI = 3.14159;
+final String EMPRESA = "Tech Corp";</pre>
+                    </div>
+                </div>
+                
+                <div class="concept-box">
+                    <h3>Tipos de Datos Primitivos</h3>
+                    <p>Java tiene 8 tipos primitivos que son la base de todos los datos:</p>
+                    
+                    <div class="code-block">
+                        <pre>// Números enteros
+byte pequeño = 127;        // -128 a 127
+short corto = 32000;       // -32,768 a 32,767
+int entero = 2147483647;   // Más común (±2.1 billones)
+long largo = 9223372036L;  // Números muy grandes (nota la L)
+
+// Números decimales
+float decimal = 3.14f;     // 6-7 dígitos (nota la f)
+double doble = 3.14159;    // 15 dígitos (más preciso)
+
+// Otros
+char letra = 'A';          // Un solo carácter
+boolean verdadero = true;  // true o false</pre>
+                    </div>
+                </div>
+
+                <div class="concept-box">
+                    <h3>Tipos de Referencia</h3>
+                    <div class="code-block">
+                        <pre>// String - cadenas de texto
+String mensaje = "Hola Java!";
+String vacio = "";  // String vacío válido
+
+// Arrays - colecciones de elementos
+int[] numeros = {1, 2, 3, 4, 5};
+String[] nombres = new String[3];  // Array de 3 elementos
+nombres[0] = "Ana";
+nombres[1] = "Luis";
+nombres[2] = "María";
+
+// Clases envolventes (Wrapper)
+Integer numeroObjeto = 100;  // Versión objeto de int
+Double decimalObjeto = 3.14; // Versión objeto de double</pre>
+                    </div>
+                </div>
+                
+                <div class="tip-box">
+                    <strong>💡 Consejo:</strong> Usa int para números enteros y double para decimales en la mayoría de casos. Son los más eficientes y comunes.
+                </div>
+                
+                <div class="warning-box">
+                    <strong>⚠️ Importante:</strong> Java es case-sensitive. 'nombre', 'Nombre' y 'NOMBRE' son variables diferentes.
+                </div>
+            </div>
+            
+            <!-- Sección 2: Clases y Objetos -->
+            <div class="content-section">
+                <div class="content-header">
+                    <h2>Clases y Objetos</h2>
+                    <p>Java es un lenguaje orientado a objetos - todo gira en torno a clases y objetos</p>
+                </div>
+                
+                <div class="concept-box">
+                    <h3>Definiendo una Clase</h3>
+                    <p>Una clase es como un plano o plantilla para crear objetos. Define atributos (datos) y métodos (comportamientos).</p>
+                    
+                    <div class="code-block">
+                        <pre>// Definición de una clase simple
+public class Persona {
+    // Atributos (propiedades)
+    private String nombre;
+    private int edad;
+    private String email;
+    
+    // Constructor
+    public Persona(String nombre, int edad) {
+        this.nombre = nombre;
+        this.edad = edad;
+    }
+    
+    // Métodos (comportamientos)
+    public void saludar() {
+        System.out.println("Hola, soy " + nombre);
+    }
+    
+    public void cumplirAños() {
+        edad++;
+        System.out.println("¡Feliz cumpleaños! Ahora tengo " + edad);
+    }
+    
+    // Getters y Setters
+    public String getNombre() {
+        return nombre;
+    }
+    
+    public void setEmail(String email) {
+        this.email = email;
+    }
+}</pre>
+                    </div>
+                </div>
+                
+                <div class="concept-box">
+                    <h3>Creando y Usando Objetos</h3>
+                    <div class="code-block">
+                        <pre>// Crear objetos (instancias) de la clase
+Persona persona1 = new Persona("Ana", 25);
+Persona persona2 = new Persona("Carlos", 30);
+
+// Usar los métodos del objeto
+persona1.saludar();        // Imprime: Hola, soy Ana
+persona1.cumplirAños();    // Imprime: ¡Feliz cumpleaños! Ahora tengo 26
+
+// Acceder a propiedades mediante getters/setters
+String nombre = persona1.getNombre();
+persona1.setEmail("ana@email.com");
+
+// Cada objeto es independiente
+persona2.saludar();        // Imprime: Hola, soy Carlos</pre>
+                    </div>
+                </div>
+
+                <div class="concept-box">
+                    <h3>Principios Básicos de POO</h3>
+                    <ul>
+                        <li><strong>Encapsulación:</strong> Usar private para proteger datos y public para métodos de acceso</li>
+                        <li><strong>Abstracción:</strong> Mostrar solo lo necesario, ocultar la complejidad interna</li>
+                        <li><strong>Herencia:</strong> Las clases pueden heredar características de otras clases</li>
+                        <li><strong>Polimorfismo:</strong> Los objetos pueden tomar múltiples formas</li>
+                    </ul>
+                </div>
+                
+                <div class="tip-box">
+                    <strong>💡 Consejo:</strong> Siempre usa private para los atributos y proporciona métodos públicos (getters/setters) para acceder a ellos. Esto se llama encapsulación.
+                </div>
+            </div>
+            
+            <!-- Sección 3: Métodos -->
+            <div class="content-section">
+                <div class="content-header">
+                    <h2>Métodos</h2>
+                    <p>Los métodos definen las acciones que pueden realizar los objetos</p>
+                </div>
+                
+                <div class="concept-box">
+                    <h3>Estructura de un Método</h3>
+                    <p>Un método tiene modificadores de acceso, tipo de retorno, nombre, parámetros y cuerpo.</p>
+                    
+                    <div class="code-block">
+                        <pre>// Estructura: modificador tipoRetorno nombreMetodo(parametros) { cuerpo }
+
+// Método simple sin retorno
+public void imprimirMensaje() {
+    System.out.println("¡Hola desde el método!");
+}
+
+// Método con parámetros
+public void saludar(String nombre) {
+    System.out.println("Hola, " + nombre);
+}
+
+// Método que retorna un valor
+public int sumar(int a, int b) {
+    return a + b;
+}
+
+// Método con múltiples parámetros
+public double calcularPromedio(double nota1, double nota2, double nota3) {
+    double suma = nota1 + nota2 + nota3;
+    return suma / 3;
+}</pre>
+                    </div>
+                </div>
+                
+                <div class="concept-box">
+                    <h3>Tipos de Métodos</h3>
+                    <div class="code-block">
+                        <pre>public class Calculadora {
+    // Método estático (no necesita objeto)
+    public static int multiplicar(int x, int y) {
+        return x * y;
+    }
+    
+    // Método de instancia
+    private double resultado;
+    
+    public void guardarResultado(double valor) {
+        this.resultado = valor;
+    }
+    
+    // Método sobrecargado (mismo nombre, diferentes parámetros)
+    public int sumar(int a, int b) {
+        return a + b;
+    }
+    
+    public double sumar(double a, double b) {
+        return a + b;
+    }
+    
+    public int sumar(int a, int b, int c) {
+        return a + b + c;
+    }
+}</pre>
+                    </div>
+                </div>
+
+                <div class="concept-box">
+                    <h3>Usando Métodos</h3>
+                    <div class="code-block">
+                        <pre>// Método main - punto de entrada del programa
+public static void main(String[] args) {
+    // Llamar método estático
+    int producto = Calculadora.multiplicar(5, 3);  // 15
+    
+    // Crear objeto y llamar métodos de instancia
+    Calculadora calc = new Calculadora();
+    int suma1 = calc.sumar(10, 20);       // 30
+    double suma2 = calc.sumar(3.5, 2.5);  // 6.0
+    int suma3 = calc.sumar(1, 2, 3);      // 6
+    
+    calc.guardarResultado(suma1);
+}</pre>
+                    </div>
+                </div>
+                
+                <div class="tip-box">
+                    <strong>💡 Consejo:</strong> Los nombres de métodos deben empezar con minúscula y usar camelCase: calcularTotal(), obtenerNombre(), esValido().
+                </div>
+            </div>
+            
+            <!-- Sección 4: Control de Flujo -->
+            <div class="content-section">
+                <div class="content-header">
+                    <h2>Control de Flujo</h2>
+                    <p>Controla cómo y cuándo se ejecuta tu código con condicionales y bucles</p>
+                </div>
+                
+                <div class="concept-box">
+                    <h3>Condicionales (if/else)</h3>
+                    <div class="code-block">
+                        <pre>// if simple
+int edad = 18;
+if (edad >= 18) {
+    System.out.println("Eres mayor de edad");
+}
+
+// if-else
+double nota = 7.5;
+if (nota >= 6.0) {
+    System.out.println("Aprobado");
+} else {
+    System.out.println("Reprobado");
+}
+
+// if-else if-else
+int hora = 14;
+if (hora < 12) {
+    System.out.println("Buenos días");
+} else if (hora < 19) {
+    System.out.println("Buenas tardes");
+} else {
+    System.out.println("Buenas noches");
+}
+
+// Operador ternario (if corto)
+String mensaje = (edad >= 18) ? "Mayor" : "Menor";
+System.out.println(mensaje);</pre>
+                    </div>
+                </div>
+                
+                <div class="concept-box">
+                    <h3>Switch</h3>
+                    <div class="code-block">
+                        <pre>// Switch tradicional
+int dia = 3;
+String nombreDia;
+
+switch (dia) {
+    case 1:
+        nombreDia = "Lunes";
+        break;
+    case 2:
+        nombreDia = "Martes";
+        break;
+    case 3:
+        nombreDia = "Miércoles";
+        break;
+    default:
+        nombreDia = "Día inválido";
+        break;
+}
+
+// Switch mejorado (Java 14+)
+String tipo = switch (dia) {
+    case 1, 2, 3, 4, 5 -> "Día laboral";
+    case 6, 7 -> "Fin de semana";
+    default -> "Día inválido";
+};</pre>
+                    </div>
+                </div>
+
+                <div class="concept-box">
+                    <h3>Bucles</h3>
+                    <div class="code-block">
+                        <pre>// Bucle for tradicional
+for (int i = 0; i < 5; i++) {
+    System.out.println("Iteración: " + i);
+}
+
+// For-each (para colecciones)
+String[] frutas = {"Manzana", "Pera", "Uva"};
+for (String fruta : frutas) {
+    System.out.println("Fruta: " + fruta);
+}
+
+// Bucle while
+int contador = 0;
+while (contador < 5) {
+    System.out.println("Contador: " + contador);
+    contador++;
+}
+
+// Do-while (ejecuta al menos una vez)
+int numero;
+do {
+    numero = (int)(Math.random() * 10);
+    System.out.println("Número: " + numero);
+} while (numero != 7);
+
+// Control de bucles
+for (int i = 0; i < 10; i++) {
+    if (i == 3) continue;  // Salta a la siguiente iteración
+    if (i == 7) break;     // Sale del bucle
+    System.out.println(i);
+}</pre>
+                    </div>
+                </div>
+                
+                <div class="tip-box">
+                    <strong>💡 Consejo:</strong> Usa for cuando sepas el número de iteraciones, while cuando dependas de una condición, y for-each para recorrer colecciones.
+                </div>
+                
+                <div class="warning-box">
+                    <strong>⚠️ Importante:</strong> Siempre incluye 'break' en cada case del switch (excepto en el switch mejorado) para evitar que se ejecuten los casos siguientes.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSection = 0;
+        const totalSections = 4;
+        
+        function showSection(index, menuItem) {
+            // Actualizar progreso
+            currentSection = index;
+            updateProgress();
+            
+            // Actualizar menú activo
+            document.querySelectorAll('.menu-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            menuItem.classList.add('active');
+            
+            // Mostrar sección correspondiente
+            document.querySelectorAll('.content-section').forEach((section, i) => {
+                section.classList.remove('active');
+                if (i === index) {
+                    setTimeout(() => {
+                        section.classList.add('active');
+                    }, 50);
+                }
+            });
+        }
+        
+        function updateProgress() {
+            const progress = ((currentSection + 1) / totalSections) * 100;
+            document.getElementById('progress').style.width = progress + '%';
+        }
+        
+        // Navegación con teclado
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+                if (currentSection < totalSections - 1) {
+                    const nextItem = document.querySelectorAll('.menu-item')[currentSection + 1];
+                    showSection(currentSection + 1, nextItem);
+                }
+            } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+                if (currentSection > 0) {
+                    const prevItem = document.querySelectorAll('.menu-item')[currentSection - 1];
+                    showSection(currentSection - 1, prevItem);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
