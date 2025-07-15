@@ -4,264 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fundamentos de Python</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #0f0f1e;
-            min-height: 100vh;
-            color: #e0e0e0;
-            overflow-x: hidden;
-        }
-
-        .container {
-            display: flex;
-            height: 100vh;
-        }
-
-        /* Sidebar */
-        .sidebar {
-            width: 300px;
-            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
-            padding: 30px 20px;
-            overflow-y: auto;
-            border-right: 1px solid #2a2a4a;
-        }
-
-        .logo {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .logo h1 {
-            font-size: 2em;
-            color: #4cc9f0;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .logo p {
-            color: #8892b0;
-            font-size: 0.9em;
-        }
-
-        .menu-item {
-            background: rgba(255, 255, 255, 0.05);
-            margin-bottom: 15px;
-            padding: 20px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .menu-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(76, 201, 240, 0.2), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .menu-item:hover::before {
-            left: 100%;
-        }
-
-        .menu-item:hover {
-            background: rgba(76, 201, 240, 0.1);
-            transform: translateX(5px);
-        }
-
-        .menu-item.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-color: #4cc9f0;
-            box-shadow: 0 5px 20px rgba(76, 201, 240, 0.3);
-        }
-
-        .menu-number {
-            font-size: 2.5em;
-            font-weight: bold;
-            color: #4cc9f0;
-            opacity: 0.3;
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-
-        .menu-item.active .menu-number {
-            opacity: 0.5;
-            color: white;
-        }
-
-        .menu-title {
-            font-size: 1.1em;
-            font-weight: 600;
-            margin-bottom: 5px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .menu-description {
-            font-size: 0.85em;
-            color: #8892b0;
-            position: relative;
-            z-index: 1;
-        }
-
-        .menu-item.active .menu-description {
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        /* Content Area */
-        .content {
-            flex: 1;
-            padding: 40px;
-            overflow-y: auto;
-            background: #0a0a1a;
-            position: relative;
-        }
-
-        .content-section {
-            display: none;
-            animation: fadeIn 0.5s ease;
-        }
-
-        .content-section.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .content-header {
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #2a2a4a;
-        }
-
-        .content-header h2 {
-            font-size: 2.5em;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
-        }
-
-        .content-header p {
-            font-size: 1.1em;
-            color: #8892b0;
-        }
-
-        .concept-box {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid #2a2a4a;
-            border-radius: 10px;
-            padding: 25px;
-            margin-bottom: 25px;
-        }
-
-        .concept-box h3 {
-            color: #4cc9f0;
-            margin-bottom: 15px;
-            font-size: 1.3em;
-        }
-
-        .code-block {
-            background: #1a1a2e;
-            border-left: 4px solid #4cc9f0;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 5px;
-            overflow-x: auto;
-            position: relative;
-        }
-
-        .code-block pre {
-            color: #e0e0e0;
-            font-family: 'Courier New', monospace;
-            font-size: 0.95em;
-            line-height: 1.6;
-        }
-
-        .code-block::before {
-            content: 'CÓDIGO';
-            position: absolute;
-            top: 5px;
-            right: 10px;
-            font-size: 0.75em;
-            color: #4cc9f0;
-            opacity: 0.5;
-        }
-
-        .tip-box {
-            background: linear-gradient(135deg, rgba(76, 201, 240, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
-            border-left: 4px solid #4cc9f0;
-            padding: 15px 20px;
-            margin: 20px 0;
-            border-radius: 5px;
-        }
-
-        .tip-box strong {
-            color: #4cc9f0;
-        }
-
-        .progress-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: #2a2a4a;
-            z-index: 1000;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-            width: 25%;
-            transition: width 0.5s ease;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .container {
-                flex-direction: column;
-            }
-            
-            .sidebar {
-                width: 100%;
-                height: auto;
-                border-right: none;
-                border-bottom: 1px solid #2a2a4a;
-            }
-            
-            .content {
-                padding: 20px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="../css/python.css">
 </head>
 <body>
     <div class="progress-bar">
@@ -270,7 +13,7 @@
 
     <div class="container">
         <div class="sidebar">
-            <div class="logo">
+            <div class="logo" onclick="window.location.href='../index.html'">
                 <h1>🐍 Python</h1>
                 <p>Fundamentos Esenciales</p>
             </div>
@@ -278,25 +21,21 @@
             <div class="menu-item active" onclick="showSection(0, this)">
                 <div class="menu-number">1</div>
                 <div class="menu-title">Variables</div>
-                <div class="menu-description">Almacena información en tu programa</div>
             </div>
             
             <div class="menu-item" onclick="showSection(1, this)">
                 <div class="menu-number">2</div>
-                <div class="menu-title">Tipos de Datos</div>
-                <div class="menu-description">Diferentes formas de información</div>
+                <div class="menu-title">Tipos de Datos</div>     
             </div>
             
             <div class="menu-item" onclick="showSection(2, this)">
                 <div class="menu-number">3</div>
                 <div class="menu-title">Condicionales</div>
-                <div class="menu-description">Toma decisiones en el código</div>
             </div>
             
             <div class="menu-item" onclick="showSection(3, this)">
                 <div class="menu-number">4</div>
                 <div class="menu-title">Bucles</div>
-                <div class="menu-description">Repite acciones automáticamente</div>
             </div>
         </div>
         
@@ -525,51 +264,7 @@ while True:
         </div>
     </div>
 
-    <script>
-        let currentSection = 0;
-        const totalSections = 4;
-        
-        function showSection(index, menuItem) {
-            // Actualizar progreso
-            currentSection = index;
-            updateProgress();
-            
-            // Actualizar menú activo
-            document.querySelectorAll('.menu-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            menuItem.classList.add('active');
-            
-            // Mostrar sección correspondiente
-            document.querySelectorAll('.content-section').forEach((section, i) => {
-                section.classList.remove('active');
-                if (i === index) {
-                    setTimeout(() => {
-                        section.classList.add('active');
-                    }, 50);
-                }
-            });
-        }
-        
-        function updateProgress() {
-            const progress = ((currentSection + 1) / totalSections) * 100;
-            document.getElementById('progress').style.width = progress + '%';
-        }
-        
-        // Navegación con teclado
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
-                if (currentSection < totalSections - 1) {
-                    const nextItem = document.querySelectorAll('.menu-item')[currentSection + 1];
-                    showSection(currentSection + 1, nextItem);
-                }
-            } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
-                if (currentSection > 0) {
-                    const prevItem = document.querySelectorAll('.menu-item')[currentSection - 1];
-                    showSection(currentSection - 1, prevItem);
-                }
-            }
-        });
+    <script src="../js/python.js">
     </script>
 </body>
 </html>

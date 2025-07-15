@@ -216,21 +216,6 @@ body {
     margin-bottom: 20px;
 }
 
-.features {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 20px;
-}
-
-.feature-tag {
-    background: rgba(76, 201, 240, 0.1);
-    color: #4cc9f0;
-    padding: 5px 12px;
-    border-radius: 15px;
-    font-size: 0.85em;
-}
-
 .start-button {
     width: 100%;
     padding: 15px;
