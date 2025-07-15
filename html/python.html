@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fundamentos de Python</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0f0f1e;
+            min-height: 100vh;
+            color: #e0e0e0;
+            overflow-x: hidden;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 300px;
+            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+            padding: 30px 20px;
+            overflow-y: auto;
+            border-right: 1px solid #2a2a4a;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo h1 {
+            font-size: 2em;
+            color: #4cc9f0;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .logo p {
+            color: #8892b0;
+            font-size: 0.9em;
+        }
+
+        .menu-item {
+            background: rgba(255, 255, 255, 0.05);
+            margin-bottom: 15px;
+            padding: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(76, 201, 240, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .menu-item:hover::before {
+            left: 100%;
+        }
+
+        .menu-item:hover {
+            background: rgba(76, 201, 240, 0.1);
+            transform: translateX(5px);
+        }
+
+        .menu-item.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-color: #4cc9f0;
+            box-shadow: 0 5px 20px rgba(76, 201, 240, 0.3);
+        }
+
+        .menu-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #4cc9f0;
+            opacity: 0.3;
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .menu-item.active .menu-number {
+            opacity: 0.5;
+            color: white;
+        }
+
+        .menu-title {
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 5px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .menu-description {
+            font-size: 0.85em;
+            color: #8892b0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .menu-item.active .menu-description {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Content Area */
+        .content {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+            background: #0a0a1a;
+            position: relative;
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .content-header {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #2a2a4a;
+        }
+
+        .content-header h2 {
+            font-size: 2.5em;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .content-header p {
+            font-size: 1.1em;
+            color: #8892b0;
+        }
+
+        .concept-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid #2a2a4a;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .concept-box h3 {
+            color: #4cc9f0;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .code-block {
+            background: #1a1a2e;
+            border-left: 4px solid #4cc9f0;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-block pre {
+            color: #e0e0e0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .code-block::before {
+            content: 'CÓDIGO';
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            font-size: 0.75em;
+            color: #4cc9f0;
+            opacity: 0.5;
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, rgba(76, 201, 240, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border-left: 4px solid #4cc9f0;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .tip-box strong {
+            color: #4cc9f0;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #2a2a4a;
+            z-index: 1000;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 25%;
+            transition: width 0.5s ease;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid #2a2a4a;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar">
+        <div class="progress-fill" id="progress"></div>
+    </div>
+
+    <div class="container">
+        <div class="sidebar">
+            <div class="logo">
+                <h1>🐍 Python</h1>
+                <p>Fundamentos Esenciales</p>
+            </div>
+            
+            <div class="menu-item active" onclick="showSection(0, this)">
+                <div class="menu-number">1</div>
+                <div class="menu-title">Variables</div>
+                <div class="menu-description">Almacena información en tu programa</div>
+            </div>
+            
+            <div class="menu-item" onclick="showSection(1, this)">
+                <div class="menu-number">2</div>
+                <div class="menu-title">Tipos de Datos</div>
+                <div class="menu-description">Diferentes formas de información</div>
+            </div>
+            
+            <div class="menu-item" onclick="showSection(2, this)">
+                <div class="menu-number">3</div>
+                <div class="menu-title">Condicionales</div>
+                <div class="menu-description">Toma decisiones en el código</div>
+            </div>
+            
+            <div class="menu-item" onclick="showSection(3, this)">
+                <div class="menu-number">4</div>
+                <div class="menu-title">Bucles</div>
+                <div class="menu-description">Repite acciones automáticamente</div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <!-- Sección 1: Variables -->
+            <div class="content-section active">
+                <div class="content-header">
+                    <h2>Variables</h2>
+                    <p>Las variables son contenedores que almacenan datos en tu programa</p>
+                </div>
+                
+                <div class="concept-box">
+                    <h3>¿Qué son las variables?</h3>
+                    <p>Imagina las variables como cajas etiquetadas donde guardas información. Puedes poner algo dentro, sacarlo, o cambiarlo cuando quieras.</p>
+                    
+                    <div class="code-block">
+                        <pre># Crear variables es muy simple
+nombre = "Ana"
+edad = 25
+altura = 1.65
+es_estudiante = True
+
+# Puedes cambiar el valor cuando quieras
+edad = 26  # ¡Feliz cumpleaños!
+
+# Mostrar el contenido
+print(f"Hola, soy {nombre} y tengo {edad} años")</pre>
+                    </div>
+                </div>
+                
+                <div class="concept-box">
+                    <h3>Reglas para nombrar variables</h3>
+                    <ul style="list-style: none; padding-left: 0;">
+                        <li>✅ Usa nombres descriptivos: <code>edad_usuario</code> mejor que <code>e</code></li>
+                        <li>✅ Usa minúsculas y guiones bajos: <code>mi_variable</code></li>
+                        <li>❌ No empieces con números: <code>1variable</code> está mal</li>
+                        <li>❌ No uses espacios: <code>mi variable</code> está mal</li>
+                    </ul>
+                </div>
+                
+                <div class="tip-box">
+                    <strong>💡 Consejo:</strong> Python no requiere declarar el tipo de variable. El lenguaje lo detecta automáticamente según el valor que asignes.
+                </div>
+            </div>
+            
+            <!-- Sección 2: Tipos de Datos -->
+            <div class="content-section">
+                <div class="content-header">
+                    <h2>Tipos de Datos</h2>
+                    <p>Python maneja diferentes tipos de información de forma automática</p>
+                </div>
+                
+                <div class="concept-box">
+                    <h3>Tipos básicos</h3>
+                    <div class="code-block">
+                        <pre># Números enteros (int)
+estudiantes = 30
+año = 2024
+
+# Números decimales (float)
+precio = 19.99
+pi = 3.14159
+
+# Texto (string)
+mensaje = "¡Hola, Python!"
+nombre = 'Carlos'  # Puedes usar comillas simples o dobles
+
+# Booleanos (bool)
+es_verdad = True
+es_falso = False</pre>
+                    </div>
+                </div>
+                
+                <div class="concept-box">
+                    <h3>Estructuras de datos</h3>
+                    <div class="code-block">
+                        <pre># Listas - colecciones ordenadas modificables
+frutas = ["manzana", "pera", "uva"]
+numeros = [1, 2, 3, 4, 5]
+
+# Diccionarios - pares clave-valor
+persona = {
+    "nombre": "María",
+    "edad": 28,
+    "ciudad": "Madrid"
+}
+
+# Tuplas - colecciones ordenadas inmutables
+coordenadas = (10, 20)
+
+# Verificar tipos
+print(type(frutas))     # <class 'list'>
+print(type(persona))    # <class 'dict'></pre>
+                    </div>
+                </div>
+                
+                <div class="tip-box">
+                    <strong>💡 Consejo:</strong> Usa <code>type()</code> para verificar el tipo de cualquier variable. Es útil cuando debuggeas tu código.
+                </div>
+            </div>
+            
+            <!-- Sección 3: Condicionales -->
+            <div class="content-section">
+                <div class="content-header">
+                    <h2>Condicionales (if/else)</h2>
+                    <p>Permite que tu programa tome decisiones basadas en condiciones</p>
+                </div>
+                
+                <div class="concept-box">
+                    <h3>Estructura básica</h3>
+                    <div class="code-block">
+                        <pre># Condicional simple
+temperatura = 25
+
+if temperatura > 30:
+    print("Hace mucho calor")
+elif temperatura > 20:
+    print("El clima está agradable")
+else:
+    print("Hace frío")
+
+# Condiciones múltiples
+edad = 16
+tiene_permiso = True
+
+if edad >= 18:
+    print("Puedes conducir")
+elif edad >= 16 and tiene_permiso:
+    print("Puedes conducir con supervisión")
+else:
+    print("No puedes conducir aún")</pre>
+                    </div>
+                </div>
+                
+                <div class="concept-box">
+                    <h3>Operadores de comparación</h3>
+                    <div class="code-block">
+                        <pre># Operadores básicos
+# == igual a
+# != diferente de
+# >  mayor que
+# <  menor que
+# >= mayor o igual
+# <= menor o igual
+
+x = 10
+y = 5
+
+if x > y:
+    print(f"{x} es mayor que {y}")
+
+# Operadores lógicos
+# and - ambas condiciones deben ser verdaderas
+# or  - al menos una condición debe ser verdadera
+# not - invierte el valor booleano
+
+if x > 0 and y > 0:
+    print("Ambos números son positivos")</pre>
+                    </div>
+                </div>
+                
+                <div class="tip-box">
+                    <strong>💡 Consejo:</strong> La indentación (4 espacios) es CRUCIAL en Python. Define qué código pertenece a cada bloque condicional.
+                </div>
+            </div>
+            
+            <!-- Sección 4: Bucles -->
+            <div class="content-section">
+                <div class="content-header">
+                    <h2>Bucles (for/while)</h2>
+                    <p>Repite código múltiples veces de forma automática</p>
+                </div>
+                
+                <div class="concept-box">
+                    <h3>Bucle for - cuando sabes cuántas veces repetir</h3>
+                    <div class="code-block">
+                        <pre># Recorrer una lista
+colores = ["rojo", "verde", "azul"]
+for color in colores:
+    print(f"El color es: {color}")
+
+# Usar range() para números
+for numero in range(5):  # 0, 1, 2, 3, 4
+    print(f"Contando: {numero}")
+
+# Range con inicio y fin
+for i in range(1, 6):  # 1, 2, 3, 4, 5
+    print(f"Número: {i}")
+
+# Recorrer strings
+palabra = "Python"
+for letra in palabra:
+    print(letra)</pre>
+                    </div>
+                </div>
+                
+                <div class="concept-box">
+                    <h3>Bucle while - cuando la condición es dinámica</h3>
+                    <div class="code-block">
+                        <pre># Bucle while básico
+contador = 0
+while contador < 5:
+    print(f"Contador: {contador}")
+    contador += 1  # Muy importante: actualizar la condición
+
+# Bucle con input del usuario
+respuesta = ""
+while respuesta != "salir":
+    respuesta = input("Escribe 'salir' para terminar: ")
+    print(f"Escribiste: {respuesta}")
+
+# Usar break para salir antes
+numero = 0
+while True:
+    numero += 1
+    if numero > 10:
+        break  # Sale del bucle
+    print(numero)</pre>
+                    </div>
+                </div>
+                
+                <div class="tip-box">
+                    <strong>💡 Consejo:</strong> Cuidado con los bucles infinitos. Siempre asegúrate de que la condición del while pueda volverse falsa en algún momento.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSection = 0;
+        const totalSections = 4;
+        
+        function showSection(index, menuItem) {
+            // Actualizar progreso
+            currentSection = index;
+            updateProgress();
+            
+            // Actualizar menú activo
+            document.querySelectorAll('.menu-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            menuItem.classList.add('active');
+            
+            // Mostrar sección correspondiente
+            document.querySelectorAll('.content-section').forEach((section, i) => {
+                section.classList.remove('active');
+                if (i === index) {
+                    setTimeout(() => {
+                        section.classList.add('active');
+                    }, 50);
+                }
+            });
+        }
+        
+        function updateProgress() {
+            const progress = ((currentSection + 1) / totalSections) * 100;
+            document.getElementById('progress').style.width = progress + '%';
+        }
+        
+        // Navegación con teclado
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+                if (currentSection < totalSections - 1) {
+                    const nextItem = document.querySelectorAll('.menu-item')[currentSection + 1];
+                    showSection(currentSection + 1, nextItem);
+                }
+            } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+                if (currentSection > 0) {
+                    const prevItem = document.querySelectorAll('.menu-item')[currentSection - 1];
+                    showSection(currentSection - 1, prevItem);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeLearn - Aprende a Programar</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <h1 class="logo">CodeLearn</h1>
+            <p class="tagline">Tu viaje en la programación comienza aquí</p>
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">Lenguajes</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">Lecciones</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Gratis</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="section-title">
+            <h2>Elige tu lenguaje</h2>
+            <p>Selecciona el lenguaje de programación que quieres aprender</p>
+        </section>
+
+        <div class="languages-grid">
+            <!-- Python Card -->
+            <div class="language-card fade-in" onclick="window.location.href='/html/python.html'">
+                <div class="language-header">
+                    <div class="language-icon python-icon">🐍</div>
+                    <div class="language-info">
+                        <h3>Python</h3>
+                        <span class="difficulty facil">Fácil</span>
+                    </div>
+                </div>
+                <p class="language-description">
+                    El lenguaje perfecto para principiantes. Python es conocido por su sintaxis clara y legible, 
+                    ideal para aprender los conceptos fundamentales de la programación.
+                </p>
+                <div class="features">
+                    <span class="feature-tag">Inteligencia Artificial</span>
+                    <span class="feature-tag">Ciencia de Datos</span>
+                    <span class="feature-tag">Automatización</span>
+                    <span class="feature-tag">Web</span>
+                </div>
+                <button class="start-button">Comenzar con Python →</button>
+            </div>
+
+            <!-- JavaScript Card -->
+            <div class="language-card fade-in" onclick="window.location.href='#javascript'">
+                <div class="language-header">
+                    <div class="language-icon javascript-icon">JS</div>
+                    <div class="language-info">
+                        <h3>JavaScript</h3>
+                        <span class="difficulty medio">Medio</span>
+                    </div>
+                </div>
+                <p class="language-description">
+                    El lenguaje de la web. JavaScript te permite crear sitios web interactivos, aplicaciones móviles 
+                    y hasta servidores. Es esencial para el desarrollo web moderno.
+                </p>
+                <div class="features">
+                    <span class="feature-tag">Desarrollo Web</span>
+                    <span class="feature-tag">Apps Móviles</span>
+                    <span class="feature-tag">Frontend</span>
+                    <span class="feature-tag">Backend</span>
+                </div>
+                <button class="start-button">Comenzar con JavaScript →</button>
+            </div>
+
+            <!-- Java Card -->
+            <div class="language-card fade-in" onclick="window.location.href='#java'">
+                <div class="language-header">
+                    <div class="language-icon java-icon">☕</div>
+                    <div class="language-info">
+                        <h3>Java</h3>
+                        <span class="difficulty medio">Medio</span>
+                    </div>
+                </div>
+                <p class="language-description">
+                    Uno de los lenguajes más populares del mundo. Java es usado en aplicaciones empresariales, 
+                    desarrollo Android y sistemas a gran escala. Aprende programación orientada a objetos.
+                </p>
+                <div class="features">
+                    <span class="feature-tag">Android</span>
+                    <span class="feature-tag">Empresarial</span>
+                    <span class="feature-tag">Backend</span>
+                    <span class="feature-tag">POO</span>
+                </div>
+                <button class="start-button">Comenzar con Java →</button>
+            </div>
+        </div>
+
+        <section class="features-section">
+            <div class="section-title">
+                <h2>¿Por qué aprender con nosotros?</h2>
+            </div>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">🎯</div>
+                    <h4>Enfoque Práctico</h4>
+                    <p>Aprende haciendo con ejemplos reales y ejercicios interactivos</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">📈</div>
+                    <h4>Progreso Gradual</h4>
+                    <p>Contenido estructurado desde lo básico hasta conceptos avanzados</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">💡</div>
+                    <h4>Explicaciones Claras</h4>
+                    <p>Conceptos complejos explicados de forma simple y comprensible</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🚀</div>
+                    <h4>Proyectos Reales</h4>
+                    <p>Construye proyectos que puedes mostrar en tu portafolio</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>© 2025 CodeLearn - Aprende a programar paso a paso</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
